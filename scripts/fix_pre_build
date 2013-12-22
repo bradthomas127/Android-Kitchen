@@ -1,6 +1,6 @@
 ############################################################################
 #
-# Copyright (c) 2012 - dsixda (dislam@rocketmail.com)
+# Copyright (c) 2013 - dsixda (dislam@rocketmail.com)
 #
 # Android Kitchen is 100% free.  This script file is intended for personal
 # and/or educational use only.  It may not be duplicated for monetary
@@ -315,10 +315,13 @@ then
   res2=$?
   scripts/check_gnote2_common
   res3=$?
+  scripts/check_galaxy_s4_common
+  res4=$?
 
   cd WORKING_*
 
-  if [[ "$res" == "1" || "$res2" == "1" || "$res3" == "1" ]] && [[ ! -e flash_image ]]
+  if [[ "$res" == "1" || "$res2" == "1" || "$res3" == "1" || "$res4" == "1" ]] && \
+      [[ ! -e flash_image ]]
   then
     echo "Adding flash_image to ROM ..."
     cp ../tools/samsung_files/flash_image .
@@ -371,6 +374,12 @@ fi
 #
 cd ..
 scripts/fix_prima_wifi
+
+#
+# Symlink fix under /system/lib/modules, especially for MTK65xx devices
+#
+scripts/fix_lib_modules
+
 cd WORKING_*
 
 
@@ -444,7 +453,7 @@ fi
 
 
 #
-# Check for /preload app symlinks (Galaxy S2 hidden.img)
+# Check for /preload app symlinks (Galaxy S2)
 #
 
 if [ -d preload/symlink/system/app ]
